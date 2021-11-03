@@ -6,9 +6,9 @@ sidebar_position: 1
 
 使用stride最基础的当然是渲染窗口，以及piple。
 
-![](D:\00_blogs\vvvv_note\docs\stride\img\window.png)
+![](./img/window.png)
 
-![](D:\00_blogs\vvvv_note\docs\stride\img\render.png)
+![](./img/render.png)
 
 ## 关键结构
 
