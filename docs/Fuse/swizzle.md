@@ -8,5 +8,5 @@ sidebar_position: 1
 
 因而fuse提供了可以操作单个通道的一系列节点：
 
-![swizzle](.\img\swizzle.png)
+![swizzle](./img/swizzle.png)
 
