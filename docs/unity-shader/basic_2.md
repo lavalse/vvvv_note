@@ -15,7 +15,10 @@ Properties{
 ```
 
 假设我开放一个接口给cube texture，发现并不能引入jpg或者png等等的图片，似乎是特殊格式。下载了几个asset store中的package试了一下，发现似乎支持.exr后缀的文件以及.hdr的文件。
-但是我直接把文件引入，又不能直接添加到cube texture上，好像必须通过unity的什么处理，今后再细细研究。
+
+要将文件转为CUBE才能被正确使用。选择图片在右边更改：
+![](./img/3-2.png)
+
 
 ```shaderlab
 void surf (Input IN, inout SurfaceOutput o) {
