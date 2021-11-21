@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import { Canvas } from '@react-three/fiber'
-
+import { Canvas, extend } from '@react-three/fiber';
+import { OrbitControls, shaderMaterial } from "@react-three/drei";
 
 const ButtonExample = (props) => (
   <button
@@ -29,6 +29,9 @@ const ReactLiveScope = {
   ...React,
   ButtonExample,
   Canvas,
+  extend,
+  OrbitControls,
+  shaderMaterial
 };
 
 export default ReactLiveScope;

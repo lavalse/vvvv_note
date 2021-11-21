@@ -1,0 +1,56 @@
+---
+title: Import Shader
+sidebar_position: 4
+---
+
+尝试将shader引入react中。这样我就搭建起来了一个可以供我学习记录的文档。
+当然，没有找到好办法能够支持到交互式文档，因为自定义的shader material必须extend一下，因而不太好代入到jsx的式样中，只好作罢。
+
+<SimpleScene/>
+
+```jsx
+import React from "react"
+import { Canvas, extend } from "@react-three/fiber"
+import { OrbitControls, shaderMaterial } from "@react-three/drei"
+
+const MyMaterial = shaderMaterial(
+  {},
+  ` 
+    void main() {
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0 );
+
+    }
+  `,
+  `
+    void main() {
+
+      gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+      
+    }
+  `
+)
+
+extend({ MyMaterial })
+
+export default function App() {
+  return (
+    <div style={{height:"250px"}}>
+      <Canvas camera={{ position: [0, 0, 2] }}>
+        <mesh>
+          <boxGeometry/>
+          <myMaterial/>
+        </mesh>
+        <OrbitControls/>
+      </Canvas>
+    </div>
+  )
+}
+
+```
+
+注意这里一个很坑的地方。在```<mesh></mesh>```内部的```<myMaterial/>```首字母必须小写。而作为组件在外部的时候```<MyMaterial>```又必须首字母大写。
+
+import SimpleScene from "./components/scene_4_1/Scene";
+
+

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Canvas } from '@react-three/fiber'
 
-import styles from './MyScene.module.css';
+import styles from './Scene.module.css';
 
 export default function App() {
   return (
