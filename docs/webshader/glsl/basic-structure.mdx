@@ -3,7 +3,81 @@ title: Basic structure
 sidebar_position: 1
 ---
 
-<Scene/>
+<div class="margin-vert--lg">
+    <Scene/>
+</div>
+
+```jsx
+import React from "react"
+import * as THREE from "three"
+import { Canvas, extend } from "@react-three/fiber"
+import { OrbitControls, shaderMaterial } from "@react-three/drei"
+
+const MyMaterial = shaderMaterial(
+  {color: new THREE.Color(0.9, 0.0, 0.1), u_resolution: new THREE.Vector2(500,500)},
+  ` 
+    void main() {
+
+      gl_Position = vec4( position, 1.0 );
+
+    }
+  `,
+  `
+    uniform vec3 color;
+    uniform vec2 u_resolution;
+
+    void main() {
+      vec2 st = gl_FragCoord.xy/u_resolution.xy;
+      gl_FragColor = vec4(st.x, 0.0, 0.0, 1.0);
+    }
+  `
+)
+
+extend({ MyMaterial })
+
+export default function App() {
+  return (
+    <div style={{width:"500px",height:"500px"}}>
+      <Canvas camera={{ position: [0, 0, 0] }}>
+        <mesh>
+          <planeGeometry args={[2,2]}/>
+          <myMaterial/>
+        </mesh>
+        <OrbitControls/>
+      </Canvas>
+    </div>
+  )
+}
+
+```
+
+如上便是在three-fiber中使用shaderMaterial的例子。第一个物件的参数应该是从外部向shader中引入uniform参数，第二个字符串是vertex shader，第三个字符串则是fragment shader。
+
+## uniform, attributes, varying
+
+在shader中有三种变量，官方[这么](https://threejs.org/docs/#api/en/materials/ShaderMaterial)说明
+
+:::tip
+There are three types of variables in shaders: uniforms, attributes, and varyings:
+
+- Uniforms are variables that have the same value for all vertices - lighting, fog, and shadow maps are examples of data that would be stored in uniforms. Uniforms can be accessed by both the vertex shader and the fragment shader.
+
+- Attributes are variables associated with each vertex---for instance, the vertex position, face normal, and vertex color are all examples of data that would be stored in attributes. Attributes can only be accessed within the vertex shader.
+
+- Varyings are variables that are passed from the vertex shader to the fragment shader. For each fragment, the value of each varying will be smoothly interpolated from the values of adjacent vertices.
+
+Note that within the shader itself, uniforms and attributes act like constants; you can only modify their values by passing different values to the buffers from your JavaScript code.
+:::
+
+- `Uniform` 就像是全局变量，而且可以是由外部定义的。（是不是就是先写入buffer的意思呢？）也就是说很多参数是由场景给到shader的。比如`viewProjMatrix`,`viewMatrix`等等。当然从js中也可以定义一个color给进shader。同样的名字可以得到同样的数据。
+
+- `Attribute` 只能在vertex shader内部使用，其实就是以此来获得来自模型的数据信息，比如`position`,`uv`,`normal`等等。想要将信息传递给fragment shader的时候，用attribute来读取，用varying来传递。
+
+- `Varying`是用来在vertex shader和fragment shader之间传递数据的。在两个shader中定义同一个变量名字，就可以得到同样的数据了。
+
+:::tip
+而在使用@react-three/drei的shaderMaterial的时候，包已经帮我把场景段的Uniform定义好了，还有模型端的Attribue也都定义好了，所以直接拿来用就行了。
+:::
 
 import Scene from "./components/scene_1/Scene";
 
