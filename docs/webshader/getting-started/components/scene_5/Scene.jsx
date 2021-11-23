@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls } from "@react-three/drei"
+import { OrbitControls, Html } from "@react-three/drei"
 
 
 import styles from './Scene.module.css';
@@ -34,13 +34,24 @@ function Torus(props) {
     <mesh 
       ref={ref}
       position={[0,0,0]}
-      scale={click ? 1.2 : 1}
+      scale={click ? 1.01 : 1}
       onClick={handleClick}
       onPointerMove={hoverStart}
       onPointerOut={hoverEnd}
       rotation={[0,-1,0]}>
       <torusGeometry args={[1, 0.5, 32, 100]}/>
-      <meshBasicMaterial color={hover ? "pink" : "orange"}/>
+      <meshStandardMaterial color={click ? "maroon" : hover ? "red" : "orange"}/>
+      <Html position={[1, 2, 0]}>
+        <div style={{
+          backgroundColor:"black",
+          width: "250px",
+          padding: "12px",
+          display: click?"":hover?"":"none"
+        }}>
+          {click?"But what can I say ...":hover?"I want to say something ...":""}
+
+        </div>
+      </Html>
     </mesh>
   )
 }
@@ -65,6 +76,13 @@ export default function App() {
         
         <OrbitControls/>
         
+        <Html position={[-1.2,-3,0]}>
+          <div style={{width:"500px"}}>
+            <p>
+              👆 hover and click me
+            </p>
+          </div>
+        </Html>
       </Canvas>
     </div>
   )
