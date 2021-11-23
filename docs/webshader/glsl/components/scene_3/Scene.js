@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useRef } from "react"
 import * as THREE from "three"
-import { Canvas, extend } from "@react-three/fiber"
+import { Canvas, extend, useFrame } from "@react-three/fiber"
 import { OrbitControls, shaderMaterial } from "@react-three/drei"
 
 const MyMaterial = shaderMaterial(
@@ -14,6 +14,7 @@ const MyMaterial = shaderMaterial(
   varying vec2 vUv;
   varying vec3 vNormal;
   uniform vec3 u_goto;
+  uniform float time;
   void main()
   {
 
@@ -22,9 +23,9 @@ const MyMaterial = shaderMaterial(
 
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
-    modelPosition.y = sin(modelPosition.x * 3.1415 * 5.0 ) * 0.1;
+    modelPosition.y = sin(modelPosition.x * 3.1415 * 5.0 + time * 2.0 ) * 0.1;
 
-    modelPosition.x = modelPosition.x + u_goto.x;
+    modelPosition.x = modelPosition.x * 1.5;
     modelPosition.y = modelPosition.y + u_goto.y;
 
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -52,7 +53,24 @@ const MyMaterial = shaderMaterial(
 
 extend({ MyMaterial })
 
-export default function App() {
+function MyPlane(){
+  
+  const fsRef = useRef();
+
+  useFrame(({clock})=>{
+    const a = clock.getElapsedTime();
+    fsRef.current.uniforms.time.value = a;
+  });
+
+  return(
+    <mesh position={[0,0,0]} rotation={[-Math.PI / 2,0,0]}>
+      <planeGeometry args={[1,1,50,10]}/>
+      <myMaterial ref={fsRef}/>
+    </mesh>
+  )
+};
+
+export default function Scene() {
   return (
     <div style={{width:"500px",height:"500px"}}>
       <Canvas camera={{ position: [0, 1, 1] }}>
@@ -65,10 +83,7 @@ export default function App() {
         penumbra={1} 
         castShadow={true}/>
 
-        <mesh position={[0,0,0]} rotation={[-Math.PI / 2,0,0]}>
-          <planeGeometry args={[1,1,50,10]}/>
-          <myMaterial/>
-        </mesh>
+        <MyPlane/>
 
         <OrbitControls/>
       </Canvas>
