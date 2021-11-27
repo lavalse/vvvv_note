@@ -1,0 +1,16 @@
+---
+title: Fragment shader 2
+sidebar_position: 6
+---
+
+<Scene/>
+
+```glsl
+float strength = step(0.2, max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)));
+float strength_2 = 1.0 - step(0.25, max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)));
+strength *= strength_2;
+```
+
+对于只有0和1的状态来说，相加是取并集，相乘就是取交集。
+
+import Scene from "./components/scene_6/Scene";

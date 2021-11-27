@@ -1,0 +1,42 @@
+---
+title: Fragment shader 1
+sidebar_position: 5
+---
+
+<Scene/>
+
+```glsl
+float strength = mod(vUv.y * 5.0, 1.0);
+gl_FragColor = vec4(vec3(strength), 1.0);
+```
+mod means modulo 就是求小数部分，类似于js里面的 %
+
+```glsl
+float strength = mod(vUv.y * 5.0, 1.0);
+strength = step(strength, 0.5);
+gl_FragColor = vec4(vec3(strength), 1.0);
+```
+step可以用来判断前者小于后者则为1，否则为0。
+
+```glsl
+float strength = step( mod( vUv.y * gridY, 1.0 ), thresholdY);
+strength += step( mod( vUv.x * gridX, 1.0 ), thresholdX);
+
+gl_FragColor = vec4(vec3(strength), 1.0);
+```
+
+```glsl
+float strength = step( mod( vUv.y * gridY, 1.0 ), thresholdY);
+strength *= step( mod( vUv.x * gridX, 1.0 ), thresholdX);
+
+gl_FragColor = vec4(vec3(strength), 1.0);
+```
+
+```glsl
+float strength = step( mod( vUv.y * 5.0 + 0.7, 1.0 ), 0.2) * step( mod( vUv.x * 5.0, 1.0 ), 0.8) + step( mod( vUv.y * 5.0, 1.0 ), 0.8) * step( mod( vUv.x * 5.0 + 0.7, 1.0 ), 0.2);
+
+gl_FragColor = vec4(vec3(strength), 1.0);
+```
+
+
+import Scene from "./components/scene_5/Scene";

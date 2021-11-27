@@ -3,7 +3,7 @@ import * as THREE from "three"
 import { extend } from "@react-three/fiber"
 import { shaderMaterial } from "@react-three/drei"
 
-const ThirdMaterial = shaderMaterial(
+const ForthMaterial = shaderMaterial(
     {
       thresholdY: 0.5, 
       thresholdX: 0.5,
@@ -32,7 +32,7 @@ const ThirdMaterial = shaderMaterial(
       uniform float gridY;
       void main() {
         float strength = step( mod( vUv.y * gridY, 1.0 ), thresholdY);
-        strength += step( mod( vUv.x * gridX, 1.0 ), thresholdX);
+        strength *= step( mod( vUv.x * gridX, 1.0 ), thresholdX);
 
         gl_FragColor = vec4(vec3(strength), 1.0);
       }
@@ -42,7 +42,7 @@ const ThirdMaterial = shaderMaterial(
     },
   )
 
-extend({ ThirdMaterial })
+extend({ ForthMaterial })
 
 const Shader = ({thresholdY,thresholdX,gridX,gridY}) => {
   const materialRef = useRef();
@@ -54,7 +54,7 @@ const Shader = ({thresholdY,thresholdX,gridX,gridY}) => {
     materialRef.current.uniforms.gridX.value = gridX;
   },[thresholdX,thresholdY,gridX,gridY]);
 
-  return <thirdMaterial ref={materialRef}/>
+  return <forthMaterial ref={materialRef}/>
 }
 
 export default Shader;

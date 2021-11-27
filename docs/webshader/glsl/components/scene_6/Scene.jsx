@@ -21,27 +21,7 @@ export default function Scene() {
 
       <mesh position={[0,1.1,0]}>
         <planeGeometry />
-        <Shader_2 threshold={0.2}/>
-      </mesh>
-
-      <mesh position={[1.1,1.1,0]}>
-        <planeGeometry />
-        <Shader_3 thresholdY={0.1} thresholdX={0.1} gridX={5.0} gridY={5.0}/>
-      </mesh>
-
-      <mesh position={[-1.1,0,0]}>
-        <planeGeometry />
-        <Shader_4 thresholdY={0.2} thresholdX={0.8} gridX={5.0} gridY={5.0}/>
-      </mesh>
-
-      <mesh position={[0,0,0]}>
-        <planeGeometry />
-        <Shader_5 />
-      </mesh>
-
-      <mesh position={[1.1,0,0]}>
-        <planeGeometry />
-        <Shader_6 />
+        <Shader_2/>
       </mesh>
 
       <OrbitControls/>
