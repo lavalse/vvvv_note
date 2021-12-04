@@ -33,9 +33,23 @@ const config = {
             'https://github.com/facebook/docusaurus/edit/main/website/blog/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css')],
+          
         },
       }),
+    ],
+  ],
+
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'webbased',
+        path: 'webbased',
+        routeBasePath: 'webbased',
+        sidebarPath: require.resolve('./sidebarsWebbased.js'),
+        // ... other options
+      },
     ],
   ],
 
@@ -58,7 +72,7 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          // {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/webbased/index', label: 'WebBased', position: 'left'},
         ],
       },
       footer: {
